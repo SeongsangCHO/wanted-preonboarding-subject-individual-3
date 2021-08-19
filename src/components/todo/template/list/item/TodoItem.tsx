@@ -101,10 +101,14 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
     handleCancel,
     isOkClick,
   }: IUseModal = useModal();
-  const dDay =
-    dateToDday(todo.goalDate) === 0
-      ? "오늘까지"
-      : "D-" + dateToDday(todo.goalDate);
+  const dDay = () => {
+    const leftDays = dateToDday(todo.goalDate);
+    const dDay = leftDays === 0 ? "오늘까지" : "D-" + leftDays;
+    if (leftDays < 0) {
+      return `${-leftDays}일 지났어요`;
+    }
+    return dDay;
+  };
   const handleToggle = () => {
     toggleTodo(todo.id);
   };
@@ -125,7 +129,7 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
         {todo.done && <CheckOutlined />}
       </CheckCircle>
       <Text done={todo.done}>{todo.text}</Text>
-      <GoalDateText done={todo.done}>{dDay}</GoalDateText>
+      <GoalDateText done={todo.done}>{dDay()}</GoalDateText>
       <Remove onClick={handleRemove}>
         <DeleteOutlined />
       </Remove>
