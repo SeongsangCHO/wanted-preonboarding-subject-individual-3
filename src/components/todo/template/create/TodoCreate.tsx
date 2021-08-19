@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Itodo } from "components/todo/TodoService";
+import { DATE_FORMAT } from "utils/constants";
 import { DatePicker, Space } from "antd";
+
 import moment from "moment";
 
 const CircleButton = styled.button<{ open: boolean }>`
@@ -80,21 +82,19 @@ const TodoCreate = ({
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [date, setDate] = useState(moment());
-  const DATE_FORMAT = "YYYY-MM-DD";
   const handleToggle = () => setOpen(!open);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue(e.target.value);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(date.format(DATE_FORMAT));
     e.preventDefault(); // 새로고침 방지
     createTodo({
       id: nextId,
       text: value,
       done: false,
+      goalDate: date.format(DATE_FORMAT),
     });
     incrementNextId(); // nextId 하나 증가
-
     setValue(""); // input 초기화
     setOpen(false); // open 닫기
   };
@@ -107,7 +107,7 @@ const TodoCreate = ({
       <InsertFormPositioner>
         <InsertForm onSubmit={handleSubmit}>
           <StyledSpace direction="vertical">
-            <span>목표일</span>
+            <span>완료 목표일</span>
             <StyledDatePicker
               defaultValue={moment()}
               defaultPickerValue={moment()}

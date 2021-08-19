@@ -10,6 +10,7 @@ export type Itodo = {
   id: number;
   text: string;
   done: boolean;
+  goalDate: string;
 };
 
 let initialTodos: Itodo[] = [];

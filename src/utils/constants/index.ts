@@ -14,3 +14,5 @@ export const DATE_OPTIONS: IDATE_OPTIONS = {
 export const DIFF_TIME = {
   kr: 9 * 60 * 60 * 1000,
 };
+
+export const DATE_FORMAT = "YYYY-MM-DD";
