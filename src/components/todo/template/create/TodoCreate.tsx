@@ -43,7 +43,7 @@ const InsertForm = styled.form`
 const Input = styled.input`
   padding: 12px;
   border: 1px solid #dddddd;
-  width: 80%;
+  width: 100%;
   outline: none;
   font-size: 21px;
   box-sizing: border-box;
