@@ -4,8 +4,9 @@ import { PlusCircleOutlined } from "@ant-design/icons";
 import { Itodo } from "components/todo/TodoService";
 import { DATE_FORMAT } from "utils/constants";
 import { DatePicker, Space } from "antd";
-
 import moment from "moment";
+import Modal from "components/common/Modal";
+import useModal, { IUseModal } from "utils/hooks/useModal";
 
 const CircleButton = styled.button<{ open: boolean }>`
   background: #33bb77;
@@ -88,6 +89,10 @@ const TodoCreate = ({
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 새로고침 방지
+    if (value === "") {
+      showModal();
+      return;
+    }
     createTodo({
       id: nextId,
       text: value,
@@ -102,6 +107,13 @@ const TodoCreate = ({
     console.log(date, dateString);
     setDate(date);
   }
+  const {
+    isModalOpen,
+    showModal,
+    handleOk,
+    handleCancel,
+    isOkClick,
+  }: IUseModal = useModal();
   return (
     <>
       <InsertFormPositioner>
@@ -123,6 +135,16 @@ const TodoCreate = ({
           <CircleButton onClick={handleToggle} open={open}>
             <PlusCircleOutlined />
           </CircleButton>
+          <Modal
+            title=""
+            isModalOpen={isModalOpen}
+            handleOk={handleOk}
+            handleCancel={handleCancel}
+            okText="알겠습니다."
+            cancelText="닫기"
+          >
+            <p>추가하려는 Todo를 채워주세요.</p>
+          </Modal>
         </InsertForm>
       </InsertFormPositioner>
     </>

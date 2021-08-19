@@ -3,7 +3,7 @@ import { Itodo } from "components/todo/TodoService";
 import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { dateToDday } from "utils/Date";
-import useModal from "utils/hooks/useModal";
+import useModal, { IUseModal } from "utils/hooks/useModal";
 import Modal from "components/common/Modal";
 
 const Remove = styled.div`
@@ -85,14 +85,6 @@ interface TodoItemProps {
   todo: Itodo;
 }
 
-interface IUseModal {
-  isModalOpen: boolean;
-  setIsModalOpen: object;
-  showModal: Function;
-  handleOk: any;
-  handleCancel: any;
-  isOkClick: boolean;
-}
 const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
   const {
     isModalOpen,
@@ -134,6 +126,7 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
         <DeleteOutlined />
       </Remove>
       <Modal
+        title="삭제확인"
         isModalOpen={isModalOpen}
         handleOk={handleOk}
         handleCancel={handleCancel}
