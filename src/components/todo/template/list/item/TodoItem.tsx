@@ -54,17 +54,22 @@ const GoalDateText = styled.span<{ done: boolean }>`
 `;
 
 const Text = styled.div<{ done: boolean }>`
-  overflow: hidden;
   text-overflow: ellipsis;
+  overflow: hidden;
   flex: 1;
   font-size: 16px;
   color: #119955;
+  transition: 2s;
   ${(props) =>
     props.done &&
     css`
       color: #ced4da;
       text-decoration: line-through;
     `}
+  &:hover {
+    word-break: break-word;
+    overflow: visible;
+  }
 `;
 
 interface TodoItemProps {
