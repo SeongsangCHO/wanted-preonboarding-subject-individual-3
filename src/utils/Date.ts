@@ -1,4 +1,5 @@
-import { DIFF_TIME, DATE_OPTIONS } from "utils/constants";
+import { DIFF_TIME, DATE_OPTIONS, DATE_FORMAT } from "utils/constants";
+import moment from "moment";
 
 const getDay = (dateText: string[]) => {
   return dateText[0] + " ";
@@ -20,4 +21,9 @@ export const getCurrentDate = () => {
   const day = getDay(dateText);
   const dates = getDate(dateText);
   return [day, dates];
+};
+
+export const dateToDday = (goalDate: string) => {
+  const currentDate = moment();
+  return -Math.floor(moment.duration(currentDate.diff(goalDate)).asDays());
 };

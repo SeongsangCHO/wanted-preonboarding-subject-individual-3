@@ -10,6 +10,7 @@ export type Itodo = {
   id: number;
   text: string;
   done: boolean;
+  goalDate: string;
 };
 
 let initialTodos: Itodo[] = [];
@@ -42,12 +43,11 @@ export const useTodo = () => {
       toggledTodo,
       ...todoState.slice(toggledIndex + 1, todoState.length),
     ]);
-    console.log(todoState);
   };
 
   const removeTodo = (id: number) => {
     setTodoState((prevState) =>
-      prevState.filter((todo: Itodo) => todo.id === id)
+      prevState.filter((todo: Itodo) => todo.id !== id)
     );
   };
 

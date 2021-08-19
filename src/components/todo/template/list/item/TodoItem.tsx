@@ -2,6 +2,7 @@ import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Itodo } from "components/todo/TodoService";
 import React from "react";
 import styled, { css } from "styled-components";
+import { dateToDday } from "utils/Date";
 
 const Remove = styled.div`
   display: flex;
@@ -41,8 +42,20 @@ const CheckCircle = styled.div<{ done: boolean }>`
       color: #dddddd;
     `}
 `;
+const GoalDateText = styled.span<{ done: boolean }>`
+  font-size: 16px;
+  margin-right: 5px;
+  ${(props) =>
+    props.done &&
+    css`
+      color: #ced4da;
+      text-decoration: line-through;
+    `}
+`;
 
 const Text = styled.div<{ done: boolean }>`
+  overflow: hidden;
+  text-overflow: ellipsis;
   flex: 1;
   font-size: 16px;
   color: #119955;
@@ -61,6 +74,10 @@ interface TodoItemProps {
 }
 
 const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
+  const dDay =
+    dateToDday(todo.goalDate) === 0
+      ? "오늘까지"
+      : "D-" + dateToDday(todo.goalDate);
   const handleToggle = () => {
     toggleTodo(todo.id);
   };
@@ -73,6 +90,7 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
         {todo.done && <CheckOutlined />}
       </CheckCircle>
       <Text done={todo.done}>{todo.text}</Text>
+      <GoalDateText done={todo.done}>{dDay}</GoalDateText>
       <Remove onClick={handleRemove}>
         <DeleteOutlined />
       </Remove>

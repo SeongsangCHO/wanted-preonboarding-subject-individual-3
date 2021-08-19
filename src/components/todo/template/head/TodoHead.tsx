@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { getCurrentDate } from "utils/getCurrentDate";
+import { getCurrentDate } from "utils/Date";
 
 const TodoHeadBlock = styled.div`
   display: flex;
