@@ -32,6 +32,7 @@ export default function Modal({
         onOk={handleOk}
         onCancel={handleCancel}
         keyboard={true}
+        destroyOnClose={true}
       >
         {children}
       </ModalComponent>
