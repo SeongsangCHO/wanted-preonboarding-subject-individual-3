@@ -43,6 +43,11 @@ const CheckCircle = styled.div<{ done: boolean }>`
     `}
 `;
 const GoalDateText = styled.span<{ done: boolean }>`
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
   font-size: 16px;
   margin-right: 5px;
   ${(props) =>
@@ -87,7 +92,9 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
     toggleTodo(todo.id);
   };
 
-  const handleRemove = () => {};
+  const handleRemove = () => {
+    removeTodo(todo.id);
+  };
 
   return (
     <TodoItemBlock>
