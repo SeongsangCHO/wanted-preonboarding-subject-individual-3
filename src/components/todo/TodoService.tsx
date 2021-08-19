@@ -1,6 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
-import { getLocalStorageItem, getTodoListLastId } from "utils/Storage";
+import {
+  getLocalStorageItem,
+  getTodoListLastId,
+  setLocalStorageItem,
+} from "utils/Storage";
 
 export type Itodo = {
   id: number;
@@ -28,6 +32,17 @@ export const useTodo = () => {
 
   const toggleTodo = (id: number) => {
     //@TODO
+    const toggledIndex = todoState.findIndex((todo) => todo.id === id);
+    const toggledTodo = {
+      ...todoState[toggledIndex],
+      done: !todoState[toggledIndex].done,
+    };
+    setTodoState([
+      ...todoState.slice(0, toggledIndex),
+      toggledTodo,
+      ...todoState.slice(toggledIndex + 1, todoState.length),
+    ]);
+    console.log(todoState);
   };
 
   const removeTodo = (id: number) => {
@@ -37,7 +52,6 @@ export const useTodo = () => {
   };
 
   const createTodo = (todo: Itodo) => {
-    const nextId = nextIdState + 1;
     setTodoState((prevState) =>
       prevState.concat({
         ...todo,
@@ -55,7 +69,7 @@ export const useTodo = () => {
   };
 
   const saveData = () => {
-    localStorage.setItem("todos", JSON.stringify(todoState));
+    setLocalStorageItem("todos", todoState);
   };
 
   return {
