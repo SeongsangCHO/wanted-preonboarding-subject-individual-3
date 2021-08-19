@@ -10,6 +10,7 @@ interface ModalProps {
   children?: React.ReactNode;
   okText: string;
   cancelText: string;
+  title: string;
 }
 
 export default function Modal({
@@ -19,16 +20,18 @@ export default function Modal({
   children,
   okText,
   cancelText,
+  title,
 }: ModalProps): ReactElement {
   return (
     <>
       <ModalComponent
-        title="삭제확인"
+        title={title}
         okText={okText}
         cancelText={cancelText}
         visible={isModalOpen}
         onOk={handleOk}
         onCancel={handleCancel}
+        keyboard={true}
       >
         {children}
       </ModalComponent>
