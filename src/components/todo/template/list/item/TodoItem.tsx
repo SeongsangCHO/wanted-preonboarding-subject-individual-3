@@ -12,6 +12,7 @@ const Remove = styled.div`
   justify-content: center;
   color: #119955;
   font-size: 16px;
+  cursor: pointer;
 `;
 
 const TodoItemBlock = styled.div`
