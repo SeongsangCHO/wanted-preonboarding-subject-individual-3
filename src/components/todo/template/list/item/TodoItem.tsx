@@ -1,8 +1,10 @@
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Itodo } from "components/todo/TodoService";
-import React from "react";
+import React, { useEffect } from "react";
 import styled, { css } from "styled-components";
 import { dateToDday } from "utils/Date";
+import useModal from "utils/hooks/useModal";
+import Modal from "components/common/Modal";
 
 const Remove = styled.div`
   display: flex;
@@ -43,6 +45,11 @@ const CheckCircle = styled.div<{ done: boolean }>`
     `}
 `;
 const GoalDateText = styled.span<{ done: boolean }>`
+  -ms-user-select: none;
+  -moz-user-select: -moz-none;
+  -khtml-user-select: none;
+  -webkit-user-select: none;
+  user-select: none;
   font-size: 16px;
   margin-right: 5px;
   ${(props) =>
@@ -78,7 +85,22 @@ interface TodoItemProps {
   todo: Itodo;
 }
 
+interface IUseModal {
+  isModalOpen: boolean;
+  setIsModalOpen: object;
+  showModal: Function;
+  handleOk: any;
+  handleCancel: any;
+  isOkClick: boolean;
+}
 const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
+  const {
+    isModalOpen,
+    showModal,
+    handleOk,
+    handleCancel,
+    isOkClick,
+  }: IUseModal = useModal();
   const dDay =
     dateToDday(todo.goalDate) === 0
       ? "오늘까지"
@@ -86,8 +108,16 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
   const handleToggle = () => {
     toggleTodo(todo.id);
   };
-
-  const handleRemove = () => {};
+  useEffect(() => {
+    if (isOkClick) {
+      removeTodo(todo.id);
+    }
+  }, [isOkClick]);
+  const handleRemove = () => {
+    if (todo.done === false) {
+      showModal();
+    } else removeTodo(todo.id);
+  };
 
   return (
     <TodoItemBlock>
@@ -99,6 +129,15 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
       <Remove onClick={handleRemove}>
         <DeleteOutlined />
       </Remove>
+      <Modal
+        isModalOpen={isModalOpen}
+        handleOk={handleOk}
+        handleCancel={handleCancel}
+        okText="삭제"
+        cancelText="😋 더 해볼게요"
+      >
+        <p>완료 전인데 삭제하시겠어요?</p>
+      </Modal>
     </TodoItemBlock>
   );
 };
