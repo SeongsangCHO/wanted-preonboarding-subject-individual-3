@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Itodo } from "components/todo/TodoService";
+import { DatePicker, Space } from "antd";
+import moment from "moment";
 
 const CircleButton = styled.button<{ open: boolean }>`
   background: #33bb77;
@@ -33,12 +35,13 @@ const InsertForm = styled.form`
   padding-top: 36px;
   padding-right: 60px;
   padding-bottom: 36px;
+  position: relative;
 `;
 
 const Input = styled.input`
   padding: 12px;
   border: 1px solid #dddddd;
-  width: 100%;
+  width: 80%;
   outline: none;
   font-size: 21px;
   box-sizing: border-box;
@@ -47,6 +50,20 @@ const Input = styled.input`
     color: #dddddd;
     font-size: 16px;
   }
+`;
+
+const StyledSpace = styled(Space)`
+  flex-direction: row;
+  position: absolute;
+  top: 0px;
+  & > .ant-space-item {
+    line-height: 32px;
+  }
+`;
+
+const StyledDatePicker = styled(DatePicker)`
+  margin: 1px;
+  border: none;
 `;
 
 interface TodoCreateProps {
@@ -58,40 +75,51 @@ interface TodoCreateProps {
 const TodoCreate = ({
   nextId,
   createTodo,
-  incrementNextId
+  incrementNextId,
 }: TodoCreateProps) => {
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
-
+  const [date, setDate] = useState(moment());
+  const DATE_FORMAT = "YYYY-MM-DD";
   const handleToggle = () => setOpen(!open);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue(e.target.value);
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(date.format(DATE_FORMAT));
     e.preventDefault(); // 새로고침 방지
-
     createTodo({
       id: nextId,
       text: value,
-      done: false
+      done: false,
     });
     incrementNextId(); // nextId 하나 증가
 
     setValue(""); // input 초기화
     setOpen(false); // open 닫기
   };
-
+  function onChange(date: any, dateString: any) {
+    console.log(date, dateString);
+    setDate(date);
+  }
   return (
     <>
       <InsertFormPositioner>
         <InsertForm onSubmit={handleSubmit}>
+          <StyledSpace direction="vertical">
+            <span>목표일</span>
+            <StyledDatePicker
+              defaultValue={moment()}
+              defaultPickerValue={moment()}
+              onChange={onChange}
+            />
+          </StyledSpace>
           <Input
             autoFocus
             placeholder="What's need to be done?"
             onChange={handleChange}
             value={value}
           />
-
           <CircleButton onClick={handleToggle} open={open}>
             <PlusCircleOutlined />
           </CircleButton>
