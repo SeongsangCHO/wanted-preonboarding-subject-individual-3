@@ -7,6 +7,7 @@ import { DatePicker, Space } from "antd";
 import moment from "moment";
 import Modal from "components/common/Modal";
 import useModal, { IUseModal } from "utils/hooks/useModal";
+import { dateToDday } from "utils/Date";
 
 const CircleButton = styled.button<{ open: boolean }>`
   background: #33bb77;
@@ -35,7 +36,7 @@ const InsertForm = styled.form`
   display: flex;
   background: #eeeeee;
   padding-left: 40px;
-  padding-top: 36px;
+  padding-top: 44px;
   padding-right: 60px;
   padding-bottom: 36px;
   position: relative;
@@ -58,15 +59,17 @@ const Input = styled.input`
 const StyledSpace = styled(Space)`
   flex-direction: row;
   position: absolute;
-  top: 0px;
+  top: 8px;
   & > .ant-space-item {
     line-height: 32px;
   }
+  & .ant-space-item:last-child {
+  }
 `;
 
-const StyledDatePicker = styled(DatePicker)`
+const StyledDatePicker = styled(DatePicker)<{ wrongDate: boolean }>`
   margin: 1px;
-  border: none;
+  border: ${(props) => (props.wrongDate ? "1px solid red" : "none")};
 `;
 
 interface TodoCreateProps {
@@ -83,6 +86,7 @@ const TodoCreate = ({
   const [open, setOpen] = useState(false);
   const [value, setValue] = useState("");
   const [date, setDate] = useState(moment());
+  const [wrongDate, setWrongDate] = useState(false);
   const handleToggle = () => setOpen(!open);
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) =>
     setValue(e.target.value);
@@ -104,27 +108,34 @@ const TodoCreate = ({
     setOpen(false); // open 닫기
   };
   function onChange(date: any, dateString: any) {
+    if (date === null) return;
     console.log(date, dateString);
-    setDate(date);
+    const leftDays = dateToDday(date.format(DATE_FORMAT));
+    if (leftDays < 0) {
+      setWrongDate(true);
+    } else {
+      setWrongDate(false);
+      setDate(date);
+    }
   }
   const {
     isModalOpen,
     showModal,
     handleOk,
     handleCancel,
-    isOkClick,
   }: IUseModal = useModal();
   return (
     <>
       <InsertFormPositioner>
         <InsertForm onSubmit={handleSubmit}>
           <StyledSpace direction="vertical">
-            <span>완료 목표일</span>
             <StyledDatePicker
               defaultValue={moment()}
               defaultPickerValue={moment()}
               onChange={onChange}
+              wrongDate={wrongDate}
             />
+            <span>{wrongDate ? "오늘로 설정됩니다." : "목표일 설정"}</span>
           </StyledSpace>
           <Input
             autoFocus
