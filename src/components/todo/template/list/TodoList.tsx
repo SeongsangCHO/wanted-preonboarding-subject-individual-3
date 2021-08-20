@@ -10,6 +10,11 @@ const TodoListBlock = styled.div`
   overflow-y: auto;
 `;
 
+const Text = styled.p`
+  text-align: center;
+  margin: 0;
+  color: #696969;
+`;
 interface TodoListProps {
   todos: Itodo[];
   toggleTodo: (id: number) => void;
@@ -19,6 +24,7 @@ interface TodoListProps {
 const TodoList = ({ toggleTodo, removeTodo, todos }: TodoListProps) => {
   return (
     <TodoListBlock>
+      {todos.length === 0 && <Text>✅ Todo로 할 일을 관리해요! ✅</Text>}
       {todos &&
         todos.map((todo) => (
           <TodoItem

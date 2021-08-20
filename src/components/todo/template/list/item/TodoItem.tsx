@@ -12,6 +12,7 @@ const Remove = styled.div`
   justify-content: center;
   color: #119955;
   font-size: 16px;
+  cursor: pointer;
 `;
 
 const TodoItemBlock = styled.div`
@@ -93,7 +94,7 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
     handleCancel,
     isOkClick,
   }: IUseModal = useModal();
-  const dDay = () => {
+  const dDayText = () => {
     const leftDays = dateToDday(todo.goalDate);
     const dDay = leftDays === 0 ? "오늘까지" : "D-" + leftDays;
     if (leftDays < 0) {
@@ -121,7 +122,7 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
         {todo.done && <CheckOutlined />}
       </CheckCircle>
       <Text done={todo.done}>{todo.text}</Text>
-      <GoalDateText done={todo.done}>{dDay()}</GoalDateText>
+      <GoalDateText done={todo.done}>{dDayText()}</GoalDateText>
       <Remove onClick={handleRemove}>
         <DeleteOutlined />
       </Remove>
