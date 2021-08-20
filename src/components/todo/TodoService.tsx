@@ -61,7 +61,20 @@ export const useTodo = () => {
       })
     );
   };
-
+  const updateTodo = (id: number, updateText: string) => {
+    console.log(id, updateText);
+    const toggledIndex = todoState.findIndex((todo) => todo.id === id);
+    const toggledTodo = {
+      ...todoState[toggledIndex],
+      text: updateText,
+    };
+    setTodoState([
+      ...todoState.slice(0, toggledIndex),
+      toggledTodo,
+      ...todoState.slice(toggledIndex + 1, todoState.length),
+    ]);
+    // setTodoState([]);
+  };
   const loadData = () => {
     initialTodos = getLocalStorageItem("todos");
     if (initialTodos && initialTodos.length >= 1) {
@@ -108,5 +121,6 @@ export const useTodo = () => {
     removeTodo,
     createTodo,
     filterTodo,
+    updateTodo,
   };
 };

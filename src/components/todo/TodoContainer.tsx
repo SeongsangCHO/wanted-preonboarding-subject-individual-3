@@ -15,6 +15,7 @@ const TodoContainer = () => {
     removeTodo,
     createTodo,
     filterTodo,
+    updateTodo,
   } = useTodo();
 
   return (
@@ -28,6 +29,7 @@ const TodoContainer = () => {
         />
         <FilterBar filterTodo={filterTodo} />
         <TodoList
+          updateTodo={updateTodo}
           toggleTodo={toggleTodo}
           removeTodo={removeTodo}
           todos={printTodoState}

@@ -19,9 +19,15 @@ interface TodoListProps {
   todos: Itodo[];
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
+  updateTodo: (id: number, updateText: string) => void;
 }
 
-const TodoList = ({ toggleTodo, removeTodo, todos }: TodoListProps) => {
+const TodoList = ({
+  toggleTodo,
+  removeTodo,
+  updateTodo,
+  todos,
+}: TodoListProps) => {
   return (
     <TodoListBlock>
       {todos.length === 0 && <Text>✅ Todo로 할 일을 관리해요! ✅</Text>}
@@ -30,6 +36,7 @@ const TodoList = ({ toggleTodo, removeTodo, todos }: TodoListProps) => {
           <TodoItem
             toggleTodo={toggleTodo}
             removeTodo={removeTodo}
+            updateTodo={updateTodo}
             key={todo.id}
             todo={todo}
           />
