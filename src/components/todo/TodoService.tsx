@@ -77,7 +77,6 @@ export const useTodo = () => {
 
   const filterTodo = (type: string) => {
     setFilterType(type);
-    console.log(printTodoState);
     switch (type) {
       case "all":
         setPrintTodoState([...todoState]);
