@@ -25,6 +25,7 @@ const CircleButton = styled.button<{ open: boolean }>`
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
 `;
 
 const InsertFormPositioner = styled.div`
@@ -107,31 +108,27 @@ const TodoCreate = ({
     setValue(""); // input 초기화
     setOpen(false); // open 닫기
   };
-  function onChange(date: any, dateString: any) {
+  function onChange(date: any) {
     if (date === null) return;
-    console.log(date, dateString);
     const leftDays = dateToDday(date.format(DATE_FORMAT));
     if (leftDays < 0) {
       setWrongDate(true);
+      setDate(moment());
     } else {
       setWrongDate(false);
       setDate(date);
     }
   }
-  const {
-    isModalOpen,
-    showModal,
-    handleOk,
-    handleCancel,
-  }: IUseModal = useModal();
+  const { isModalOpen, showModal, handleOk, handleCancel }: IUseModal =
+    useModal();
   return (
     <>
       <InsertFormPositioner>
         <InsertForm onSubmit={handleSubmit}>
           <StyledSpace direction="vertical">
             <StyledDatePicker
-              defaultValue={moment()}
-              defaultPickerValue={moment()}
+              defaultValue={date}
+              value={date}
               onChange={onChange}
               wrongDate={wrongDate}
             />

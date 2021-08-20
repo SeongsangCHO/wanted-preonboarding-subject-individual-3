@@ -1,5 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect } from "react";
+import { dateToDday } from "utils/Date";
 import {
   getLocalStorageItem,
   getTodoListLastId,
@@ -18,13 +19,15 @@ let initialTodos: Itodo[] = [];
 export const useTodo = () => {
   const [todoState, setTodoState] = useState(initialTodos);
   const [nextIdState, setNextIdState] = useState(getTodoListLastId("todos"));
-
+  const [printTodoState, setPrintTodoState] = useState(initialTodos);
+  const [filterType, setFilterType] = useState("all");
   useEffect(() => {
     loadData();
   }, []);
 
   useEffect(() => {
     saveData();
+    filterTodo(filterType);
   }, [todoState]);
 
   const incrementNextId = () => {
@@ -32,7 +35,6 @@ export const useTodo = () => {
   };
 
   const toggleTodo = (id: number) => {
-    //@TODO
     const toggledIndex = todoState.findIndex((todo) => todo.id === id);
     const toggledTodo = {
       ...todoState[toggledIndex],
@@ -59,25 +61,66 @@ export const useTodo = () => {
       })
     );
   };
-
+  const updateTodo = (id: number, updateText: string) => {
+    console.log(id, updateText);
+    const toggledIndex = todoState.findIndex((todo) => todo.id === id);
+    const toggledTodo = {
+      ...todoState[toggledIndex],
+      text: updateText,
+    };
+    setTodoState([
+      ...todoState.slice(0, toggledIndex),
+      toggledTodo,
+      ...todoState.slice(toggledIndex + 1, todoState.length),
+    ]);
+    // setTodoState([]);
+  };
   const loadData = () => {
     initialTodos = getLocalStorageItem("todos");
     if (initialTodos && initialTodos.length >= 1) {
       incrementNextId();
     }
     setTodoState(initialTodos);
+    setPrintTodoState(initialTodos);
   };
 
   const saveData = () => {
     setLocalStorageItem("todos", todoState);
   };
 
+  const filterTodo = (type: string) => {
+    setFilterType(type);
+    switch (type) {
+      case "all":
+        setPrintTodoState([...todoState]);
+        return;
+      case "undone":
+        const todoData = todoState.filter((todo) => todo.done === false);
+        setPrintTodoState([...todoData]);
+        return;
+      case "later":
+        const laterData = todoState.filter(
+          (todo) => dateToDday(todo.goalDate) < 0
+        );
+        setPrintTodoState([...laterData]);
+        return;
+      case "done":
+        const doneData = todoState.filter((todo) => todo.done === true);
+        setPrintTodoState([...doneData]);
+        return;
+      default:
+        break;
+    }
+  };
   return {
     todoState,
     nextIdState,
+    printTodoState,
     incrementNextId,
     toggleTodo,
     removeTodo,
     createTodo,
+    filterTodo,
+    updateTodo,
   };
 };

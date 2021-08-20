@@ -25,3 +25,10 @@ export const DIFF_TIME = {
 };
 
 export const DATE_FORMAT = "YYYY-MM-DD";
+
+export const FILTER_TYPE = [
+  ["all", "All"],
+  ["undone", "Todo"],
+  ["later", "Later"],
+  ["done", "Done"],
+];

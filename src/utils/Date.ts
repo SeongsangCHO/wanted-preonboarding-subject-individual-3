@@ -1,4 +1,4 @@
-import { DIFF_TIME, DATE_OPTIONS, DATE_FORMAT } from "utils/constants";
+import { DIFF_TIME, DATE_OPTIONS } from "utils/constants";
 import moment from "moment";
 
 const getDay = (dateText: string[]) => {

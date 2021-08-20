@@ -1,6 +1,6 @@
 import { CheckOutlined, DeleteOutlined } from "@ant-design/icons";
 import { Itodo } from "components/todo/TodoService";
-import React, { useEffect } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import styled, { css } from "styled-components";
 import { dateToDday } from "utils/Date";
 import useModal, { IUseModal } from "utils/hooks/useModal";
@@ -12,6 +12,7 @@ const Remove = styled.div`
   justify-content: center;
   color: #119955;
   font-size: 16px;
+  cursor: pointer;
 `;
 
 const TodoItemBlock = styled.div`
@@ -78,14 +79,27 @@ const Text = styled.div<{ done: boolean }>`
     overflow: visible;
   }
 `;
-
+const ModifyButton = styled.button`
+  border: none;
+  background-color: white;
+  cursor: pointer;
+  &:hover {
+    font-size: 18px;
+  }
+`;
 interface TodoItemProps {
   toggleTodo: (id: number) => void;
   removeTodo: (id: number) => void;
+  updateTodo: (id: number, updateText: string) => void;
   todo: Itodo;
 }
 
-const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
+const TodoItem = ({
+  toggleTodo,
+  removeTodo,
+  updateTodo,
+  todo,
+}: TodoItemProps) => {
   const {
     isModalOpen,
     showModal,
@@ -93,6 +107,8 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
     handleCancel,
     isOkClick,
   }: IUseModal = useModal();
+  const textRef = useRef(null);
+  const [isEdit, setIsEdit] = useState(false);
   const dDayText = () => {
     const leftDays = dateToDday(todo.goalDate);
     const dDay = leftDays === 0 ? "오늘까지" : "D-" + leftDays;
@@ -108,11 +124,26 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
     if (isOkClick) {
       removeTodo(todo.id);
     }
-  }, [isOkClick]);
+  }, [isOkClick, todo.id, removeTodo]);
   const handleRemove = () => {
     if (todo.done === false) {
       showModal();
     } else removeTodo(todo.id);
+  };
+  useEffect(() => {
+    const textTag = textRef.current! as HTMLElement;
+    if (textTag) textTag.focus();
+  }, [isEdit]);
+  const handleEdit = (e: React.MouseEvent<HTMLElement>) => {
+    const textTag = textRef.current! as HTMLElement;
+    const updateText = textTag.innerText;
+    if (isEdit && updateText !== "") {
+      updateTodo(todo.id, updateText);
+    }
+    if (updateText === "") {
+      textTag.innerText = todo.text;
+    }
+    setIsEdit((prev) => !prev);
   };
 
   return (
@@ -120,7 +151,15 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
       <CheckCircle done={todo.done} onClick={handleToggle}>
         {todo.done && <CheckOutlined />}
       </CheckCircle>
-      <Text done={todo.done}>{todo.text}</Text>
+      <Text
+        ref={textRef}
+        contentEditable={isEdit}
+        done={todo.done}
+        suppressContentEditableWarning={true}
+      >
+        {todo.text}
+      </Text>
+      <ModifyButton onClick={handleEdit}>{isEdit ? "✅" : "✏️"}</ModifyButton>
       <GoalDateText done={todo.done}>{dDayText()}</GoalDateText>
       <Remove onClick={handleRemove}>
         <DeleteOutlined />

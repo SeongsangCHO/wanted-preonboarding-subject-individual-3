@@ -1,5 +1,5 @@
-import React, { ReactChildren, ReactElement, useState } from "react";
-import { Modal as ModalComponent, Button } from "antd";
+import React, { ReactElement } from "react";
+import { Modal as ModalComponent } from "antd";
 
 interface ModalProps {
   isModalOpen?: boolean;
