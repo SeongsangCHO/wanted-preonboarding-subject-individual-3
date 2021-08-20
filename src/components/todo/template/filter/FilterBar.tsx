@@ -1,7 +1,6 @@
-import { Itodo } from "components/todo/TodoService";
 import React, { useState } from "react";
+import { FILTER_TYPE } from "utils/constants";
 import styled, { css } from "styled-components";
-
 interface FilterBarProps {
   filterTodo: (type: string) => void;
 }
@@ -12,12 +11,6 @@ interface IFilterTypes {
   done: boolean;
   [index: string]: boolean;
 }
-const FILTER_TYPE = [
-  ["all", "All"],
-  ["undone", "Todo"],
-  ["later", "Later"],
-  ["done", "Done"],
-];
 
 let initialFilterTypes: IFilterTypes = {
   all: true,

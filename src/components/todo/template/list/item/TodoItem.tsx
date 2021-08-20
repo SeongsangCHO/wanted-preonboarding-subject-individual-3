@@ -109,7 +109,7 @@ const TodoItem = ({ toggleTodo, removeTodo, todo }: TodoItemProps) => {
     if (isOkClick) {
       removeTodo(todo.id);
     }
-  }, [isOkClick]);
+  }, [isOkClick, todo.id, removeTodo]);
   const handleRemove = () => {
     if (todo.done === false) {
       showModal();

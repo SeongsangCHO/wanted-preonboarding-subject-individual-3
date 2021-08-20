@@ -1,7 +1,7 @@
-import { Itodo } from "components/todo/TodoService";
 import React from "react";
+import { Itodo } from "components/todo/TodoService";
+import TodoItem from "components/todo/template/list/item/TodoItem";
 import styled from "styled-components";
-import TodoItem from "./item/TodoItem";
 
 const TodoListBlock = styled.div`
   flex: 1;
