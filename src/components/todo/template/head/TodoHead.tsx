@@ -23,7 +23,6 @@ const DayText = styled.div`
 `;
 
 const TodoHead = () => {
-  //@TODO 현재 시간을 표시해야합니다.
   const [day, date] = getCurrentDate();
   const dayString = day;
   const dateString = date;
