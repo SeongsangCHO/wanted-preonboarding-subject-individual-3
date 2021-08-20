@@ -4,6 +4,7 @@
 
 ### ✅ [배포링크](https://xenodochial-lichterman-01a66e.netlify.app/)
 
+### ✏️[정리노션링크](https://lead-dryosaurus-516.notion.site/cf3b015477b4495fa483ae322c0fee73)
 
 
 ### 과제 요구사항 기능
