@@ -86,11 +86,11 @@ export const useTodo = () => {
         const todoData = todoState.filter((todo) => todo.done === false);
         setPrintTodoState([...todoData]);
         return;
-      case "notdone":
-        const notDoneData = todoState.filter(
+      case "later":
+        const laterData = todoState.filter(
           (todo) => dateToDday(todo.goalDate) < 0
         );
-        setPrintTodoState([...notDoneData]);
+        setPrintTodoState([...laterData]);
         return;
       case "done":
         const doneData = todoState.filter((todo) => todo.done === true);

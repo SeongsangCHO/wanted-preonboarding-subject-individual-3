@@ -8,21 +8,21 @@ interface FilterBarProps {
 interface IFilterTypes {
   all: boolean;
   undone: boolean;
-  notdone: boolean;
+  later: boolean;
   done: boolean;
   [index: string]: boolean;
 }
 const FILTER_TYPE = [
   ["all", "All"],
   ["undone", "Todo"],
-  ["notdone", "Not done"],
+  ["later", "Later"],
   ["done", "Done"],
 ];
 
 let initialFilterTypes: IFilterTypes = {
   all: true,
   undone: false,
-  notdone: false,
+  later: false,
   done: false,
 };
 const FilterBar = ({ filterTodo }: FilterBarProps) => {
